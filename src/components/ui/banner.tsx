@@ -30,7 +30,7 @@ export function Banner({
   message,
   height = '3rem',
   ...props
-}: BannerProps): React.ReactElement {
+}: BannerProps): React.ReactElement | null {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const globalKey = id ? `banner-${id}` : undefined;

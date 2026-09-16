@@ -83,7 +83,7 @@ export function SmokeyBackground({
   backdropBlurAmount = "sm",
   color = "#2D5F5D", // Adjusted to HapSync brand color
   className = "",
-}: SmokeyBackgroundProps): JSX.Element {
+}: SmokeyBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mousePositionRef = useRef({ x: 0, y: 0 });
   const isHoveringRef = useRef(false);
