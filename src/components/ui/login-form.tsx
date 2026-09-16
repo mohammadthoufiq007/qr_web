@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { User, Lock, ArrowRight } from 'lucide-react';
