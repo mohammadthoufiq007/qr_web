@@ -2,8 +2,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import CleanWireframeAnalytics from '@/components/ui/line-graph-statistics';
 import { AlertCircle, LogOut } from 'lucide-react';
-import fs from 'fs/promises';
-import path from 'path';
+import { supabase } from '@/lib/supabase';
 
 export default async function DeanDashboard() {
   const cookieStore = await cookies();
@@ -16,13 +15,15 @@ export default async function DeanDashboard() {
   let feedbacks: any[] = [];
   
   try {
-    const dataFilePath = path.join(process.cwd(), 'data.json');
-    const fileData = await fs.readFile(dataFilePath, 'utf8');
-    feedbacks = JSON.parse(fileData);
-    // Sort by created_at descending
-    feedbacks.sort((a, b) => new Date(b.created_at || b.timestamp).getTime() - new Date(a.created_at || a.timestamp).getTime());
+    const { data, error } = await supabase
+      .from('feedbacks')
+      .select('*')
+      .order('created_at', { ascending: false });
+      
+    if (error) throw error;
+    if (data) feedbacks = data;
   } catch (err) {
-    // File might not exist yet or be empty
+    console.error('Error fetching feedbacks:', err);
   }
 
   const complaintsCount = feedbacks.filter(f => f.type === 'complaint').length;
